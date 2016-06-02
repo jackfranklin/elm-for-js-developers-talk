@@ -21,15 +21,30 @@ repositoryDecoder =
     JD.succeed Repository
         |: ("full_name" := JD.string)
         |: ("description" := JD.string)
+        |: ("stargazers_count" := JD.int)
+
+
+issueDecoder : Decoder Issue
+issueDecoder =
+    JD.succeed Issue
+        |: ("title" := JD.string)
+        |: ("created_at" := JD.string)
+
+
+issuesDecoder : Decoder (List Issue)
+issuesDecoder =
+    JD.list issueDecoder
 
 
 getRepositoryData : String -> Cmd Msg
 getRepositoryData userRepoString =
     Task.perform (always NoOp)
         (NewGithubData << .data)
-        (httpRequest userRepoString)
+        (gitHubRequest userRepoString repositoryDecoder)
 
 
-httpRequest : String -> Task (HttpBuilder.Error String) (HttpBuilder.Response Repository)
-httpRequest userRepoString =
-    gitHubRequest userRepoString repositoryDecoder
+getIssueData : String -> Cmd Msg
+getIssueData userRepoString =
+    Task.perform (always NoOp)
+        (NewIssues << .data)
+        (gitHubRequest (userRepoString ++ "/issues") issuesDecoder)

@@ -22,19 +22,41 @@ repositoryNameInput model =
         ]
 
 
+renderRepositoryRow : Model -> Html Msg
+renderRepositoryRow model =
+    if model.loading then
+        row [ column12 [ text "Loading repository..." ] ]
+    else
+        row
+            [ column6 [ text model.repository.fullName ]
+            , column3 [ text model.repository.description ]
+            , column3 [ text ((toString model.repository.stars) ++ "stars") ]
+            ]
+
+
+renderIssues : Model -> List (Html Msg)
+renderIssues model =
+    List.map
+        (\issue ->
+            row [ column12 [ text issue.title ] ]
+        )
+        model.issues
+
+
 view : Model -> Html Msg
 view model =
     container
-        [ row
-            [ column6 [ h4 [] [ text "GitHub Issue Browser" ] ]
-            , column3 [ (repositoryNameInput model) ]
-            , column3
-                [ btnDefault [ onClick FetchGithubData, disabled (String.isEmpty model.string) ]
-                    [ text "Go!" ]
-                ]
+        (List.concat
+            [ [ row
+                    [ column6 [ h4 [] [ text "GitHub Issue Browser" ] ]
+                    , column3 [ (repositoryNameInput model) ]
+                    , column3
+                        [ btnDefault [ onClick FetchGithubData, disabled (String.isEmpty model.string) ]
+                            [ text "Go!" ]
+                        ]
+                    ]
+              , renderRepositoryRow model
+              ]
+            , renderIssues model
             ]
-        , row
-            [ column6 [ text model.repository.fullName ]
-            , column6 [ text model.repository.description ]
-            ]
-        ]
+        )
