@@ -6,8 +6,7 @@ import Repositories.Issues.Data exposing (..)
 
 initialModel : Model
 initialModel =
-    { loading = True
-    , issues = []
+    { issues = Nothing
     }
 
 
@@ -23,7 +22,7 @@ update fullRepoName msg model =
             ( model, Cmd.none )
 
         FetchIssues ->
-            ( { model | loading = True }, getIssueData fullRepoName )
+            ( { model | issues = Nothing }, getIssueData fullRepoName )
 
         NewIssues issues ->
-            ( { model | loading = False, issues = issues }, Cmd.none )
+            ( { model | issues = Just issues }, Cmd.none )

@@ -11,8 +11,7 @@ type alias Issue =
 
 type alias Model =
     { repoName : String
-    , repository : Repository
-    , loading : Bool
+    , repository : Maybe Repository
     , issues : Repositories.Issues.Types.Model
     }
 

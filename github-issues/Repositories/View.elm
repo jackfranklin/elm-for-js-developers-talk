@@ -26,14 +26,16 @@ repositoryNameInput model =
 
 renderRepositoryRow : Model -> Html Msg
 renderRepositoryRow model =
-    if model.loading then
-        row [ column12 [ text "Loading repository..." ] ]
-    else
-        row
-            [ column6 [ text model.repository.fullame ]
-            , column3 [ text model.repository.description ]
-            , column3 [ text ((toString model.repository.stars) ++ "stars") ]
-            ]
+    case model.repository of
+        Just repository ->
+            row
+                [ column6 [ text repository.fullName ]
+                , column3 [ text repository.description ]
+                , column3 [ text ((toString repository.stars) ++ "stars") ]
+                ]
+
+        Nothing ->
+            row [ column12 [ text "Loading repository..." ] ]
 
 
 view : Model -> Html Msg

@@ -7,4 +7,9 @@ import Bootstrap exposing (..)
 
 view : Model -> Html Msg
 view model =
-    row [ column12 (List.map (\issue -> text issue.title) model.issues) ]
+    case model.issues of
+        Nothing ->
+            row [ column12 [ text "Loading issues" ] ]
+
+        Just issues ->
+            row [ column12 (List.map (\issue -> text issue.title) issues) ]

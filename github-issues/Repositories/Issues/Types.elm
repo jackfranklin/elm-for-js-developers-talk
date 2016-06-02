@@ -8,8 +8,7 @@ type alias Issue =
 
 
 type alias Model =
-    { loading : Bool
-    , issues : List Issue
+    { issues : Maybe (List Issue)
     }
 
 

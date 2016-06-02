@@ -9,8 +9,7 @@ import Repositories.Issues.Types as IssuesTypes
 initialModel : Model
 initialModel =
     { repoName = "jackfranklin/gulp-load-plugins"
-    , repository = Repository "Loading..." "" 0
-    , loading = True
+    , repository = Nothing
     , issues = IssuesState.initialModel
     }
 
@@ -30,7 +29,7 @@ update msg model =
             ( model, Cmd.none )
 
         NewGithubData repo ->
-            ( { model | repository = repo, loading = False }, Cmd.none )
+            ( { model | repository = Just repo }, Cmd.none )
 
         NewRepoInput str ->
             ( { model | repoName = str }, Cmd.none )
@@ -40,7 +39,7 @@ update msg model =
                 ( newSubModel, subCmd ) =
                     IssuesState.update model.repoName IssuesTypes.FetchIssues model.issues
             in
-                ( { model | loading = True, issues = newSubModel }
+                ( { model | repository = Nothing, issues = newSubModel }
                 , Cmd.batch [ Cmd.map IssueMessage subCmd, getRepositoryData model.repoName ]
                 )
 
