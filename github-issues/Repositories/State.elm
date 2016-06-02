@@ -41,13 +41,12 @@ update msg model =
 
         FetchGithubData ->
             let
-                newRepoModel =
-                    { model | loading = True }
-
                 ( newSubModel, subCmd ) =
                     Repositories.Issues.State.updateToFetchIssues model.string model.issues
             in
-                ( { model | issues = newSubModel }, Cmd.batch [ Cmd.map IssueMessage subCmd, getRepositoryData model.string ] )
+                ( { model | loading = True, issues = newSubModel }
+                , Cmd.batch [ Cmd.map IssueMessage subCmd, getRepositoryData model.string ]
+                )
 
         IssueMessage submsg ->
             let
