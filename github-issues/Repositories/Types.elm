@@ -1,5 +1,7 @@
 module Repositories.Types exposing (..)
 
+import Repositories.Issues.Types
+
 
 type alias Issue =
     { title : String
@@ -11,7 +13,7 @@ type alias Model =
     { string : String
     , repository : Repository
     , loading : Bool
-    , issues : List Issue
+    , issues : Repositories.Issues.Types.Model
     }
 
 
@@ -25,7 +27,6 @@ type alias Repository =
 type Msg
     = NoOp
     | FetchGithubData
-    | FetchIssues
     | NewGithubData Repository
-    | NewIssues (List Issue)
     | NewRepoInput String
+    | IssueMessage Repositories.Issues.Types.Msg

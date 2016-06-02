@@ -2,9 +2,11 @@ module Repositories.View exposing (view)
 
 import Html exposing (..)
 import Html.Attributes exposing (class, value, disabled)
+import Html.App
 import String
 import Html.Events exposing (onInput, onClick)
 import Repositories.Types exposing (..)
+import Repositories.Issues.View as IssuesView
 import Bootstrap exposing (..)
 
 
@@ -34,29 +36,17 @@ renderRepositoryRow model =
             ]
 
 
-renderIssues : Model -> List (Html Msg)
-renderIssues model =
-    List.map
-        (\issue ->
-            row [ column12 [ text issue.title ] ]
-        )
-        model.issues
-
-
 view : Model -> Html Msg
 view model =
     container
-        (List.concat
-            [ [ row
-                    [ column6 [ h4 [] [ text "GitHub Issue Browser" ] ]
-                    , column3 [ (repositoryNameInput model) ]
-                    , column3
-                        [ btnDefault [ onClick FetchGithubData, disabled (String.isEmpty model.string) ]
-                            [ text "Go!" ]
-                        ]
-                    ]
-              , renderRepositoryRow model
-              ]
-            , renderIssues model
+        [ row
+            [ column6 [ h4 [] [ text "GitHub Issue Browser" ] ]
+            , column3 [ (repositoryNameInput model) ]
+            , column3
+                [ btnDefault [ onClick FetchGithubData, disabled (String.isEmpty model.string) ]
+                    [ text "Go!" ]
+                ]
             ]
-        )
+        , renderRepositoryRow model
+        , IssuesView.view model.issues |> Html.App.map IssueMessage
+        ]

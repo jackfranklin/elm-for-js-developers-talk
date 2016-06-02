@@ -1,7 +1,8 @@
 module Repositories.State exposing (..)
 
 import Repositories.Types exposing (..)
-import Repositories.Data exposing (getRepositoryData, getIssueData)
+import Repositories.Data exposing (getRepositoryData)
+import Repositories.Issues.State
 
 
 initialModel : Model
@@ -9,7 +10,7 @@ initialModel =
     { string = "jackfranklin/gulp-load-plugins"
     , repository = Repository "Loading..." "" 0
     , loading = True
-    , issues = []
+    , issues = Repositories.Issues.State.initialModel
     }
 
 
@@ -17,7 +18,7 @@ initialCommands : Cmd Msg
 initialCommands =
     Cmd.batch
         [ getRepositoryData initialModel.string
-        , getIssueData initialModel.string
+        , Cmd.map IssueMessage (Repositories.Issues.State.initialCommands initialModel.string)
         ]
 
 
@@ -36,8 +37,9 @@ update msg model =
         FetchGithubData ->
             ( { model | loading = True }, getRepositoryData model.string )
 
-        NewIssues issues ->
-            ( { model | issues = issues }, Cmd.none )
-
-        FetchIssues ->
-            ( model, getIssueData model.string )
+        IssueMessage submsg ->
+            let
+                ( newModel, newCmd ) =
+                    Repositories.Issues.State.update model.string submsg model.issues
+            in
+                ( { model | issues = newModel }, Cmd.map IssueMessage newCmd )
