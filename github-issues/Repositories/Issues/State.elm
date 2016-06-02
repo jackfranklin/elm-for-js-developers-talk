@@ -16,6 +16,11 @@ initialCommands repoName =
     getIssueData repoName
 
 
+updateToFetchIssues : String -> Model -> ( Model, Cmd Msg )
+updateToFetchIssues repo model =
+    update repo FetchIssues model
+
+
 update : String -> Msg -> Model -> ( Model, Cmd Msg )
 update fullRepoName msg model =
     case msg of

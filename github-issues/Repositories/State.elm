@@ -14,12 +14,17 @@ initialModel =
     }
 
 
+loadGitHubDataForRepo : String -> Cmd Msg
+loadGitHubDataForRepo repo =
+    Cmd.batch
+        [ getRepositoryData repo
+        , Cmd.map IssueMessage (Repositories.Issues.State.initialCommands repo)
+        ]
+
+
 initialCommands : Cmd Msg
 initialCommands =
-    Cmd.batch
-        [ getRepositoryData initialModel.string
-        , Cmd.map IssueMessage (Repositories.Issues.State.initialCommands initialModel.string)
-        ]
+    loadGitHubDataForRepo initialModel.string
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -35,7 +40,14 @@ update msg model =
             ( { model | string = str }, Cmd.none )
 
         FetchGithubData ->
-            ( { model | loading = True }, getRepositoryData model.string )
+            let
+                newRepoModel =
+                    { model | loading = True }
+
+                ( newSubModel, subCmd ) =
+                    Repositories.Issues.State.updateToFetchIssues model.string model.issues
+            in
+                ( { model | issues = newSubModel }, Cmd.batch [ Cmd.map IssueMessage subCmd, getRepositoryData model.string ] )
 
         IssueMessage submsg ->
             let
