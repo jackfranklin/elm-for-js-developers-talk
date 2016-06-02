@@ -5,13 +5,13 @@ import Html.Attributes exposing (class)
 
 
 container : List (Html a) -> Html a
-container contents =
-    div [ class "container" ] contents
+container =
+    div [ class "container" ]
 
 
 row : List (Html a) -> Html a
-row contents =
-    div [ class "row" ] contents
+row =
+    div [ class "row" ]
 
 
 column : Int -> List (Html a) -> Html a

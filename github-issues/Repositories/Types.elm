@@ -10,7 +10,7 @@ type alias Issue =
 
 
 type alias Model =
-    { string : String
+    { repoName : String
     , repository : Repository
     , loading : Bool
     , issues : Repositories.Issues.Types.Model

@@ -16,7 +16,7 @@ repositoryNameInput model =
         [ Bootstrap.formGroup
             [ input
                 [ onInput NewRepoInput
-                , value model.string
+                , value model.repoName
                 , class "form-control"
                 ]
                 []
@@ -30,7 +30,7 @@ renderRepositoryRow model =
         row [ column12 [ text "Loading repository..." ] ]
     else
         row
-            [ column6 [ text model.repository.fullName ]
+            [ column6 [ text model.repository.fullame ]
             , column3 [ text model.repository.description ]
             , column3 [ text ((toString model.repository.stars) ++ "stars") ]
             ]
@@ -43,7 +43,7 @@ view model =
             [ column6 [ h4 [] [ text "GitHub Issue Browser" ] ]
             , column3 [ (repositoryNameInput model) ]
             , column3
-                [ btnDefault [ onClick FetchGithubData, disabled (String.isEmpty model.string) ]
+                [ btnDefault [ onClick FetchGithubData, disabled (String.isEmpty model.repoName) ]
                     [ text "Go!" ]
                 ]
             ]
