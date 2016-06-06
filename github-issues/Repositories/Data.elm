@@ -10,7 +10,7 @@ import Task exposing (Task)
 
 gitHubRequest : String -> Decoder a -> Task (Error String) (Response a)
 gitHubRequest url successDecoder =
-    get ("https://api.github.com/repos/" ++ url)
+    get ("http://localhost:3001/repos/" ++ url)
         |> withHeader "Content-Type" "application/json"
         |> withHeader "Authorization" GitHubToken.token
         |> send (jsonReader successDecoder) stringReader
@@ -41,10 +41,3 @@ getRepositoryData userRepoString =
     Task.perform (always NoOp)
         (NewGithubData << .data)
         (gitHubRequest userRepoString repositoryDecoder)
-
-
-getIssueData : String -> Cmd Msg
-getIssueData userRepoString =
-    Task.perform (always NoOp)
-        (NewIssues << .data)
-        (gitHubRequest (userRepoString ++ "/issues") issuesDecoder)

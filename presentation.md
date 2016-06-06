@@ -14,6 +14,18 @@
 
 ---
 
+## We must accept that complex applications are _hard_ to build
+
+---
+
+## And that no tool / language can ever make them truly _easy_
+
+---
+
+## And that this is fine
+
+---
+
 ## Trends
 
 ---
@@ -27,6 +39,14 @@
 ---
 
 ## MVC / MVVC / MCVCVMMCVCCC
+
+---
+
+> We can do better
+
+---
+
+## Component based approach
 
 ---
 
@@ -47,7 +67,7 @@
 
 ---
 
-## Represent user actions
+## Explicitly define all actions that can modify state
 
 ```js
 function addTodo() {
@@ -184,6 +204,14 @@ Add a branch to cover this pattern!
 
 ---
 
+![left](sherlock.jpeg)
+
+> Elm, my Dear Watson
+
+-- Sherlock Holmes
+
+---
+
 * Functional
 * Typed
 * Compiled
@@ -196,7 +224,52 @@ Add a branch to cover this pattern!
 
 ---
 
+> Learning curve ahead!
+
+---
+
 ## Expressive, clear code
+
+---
+
+## Functional Programming
+
+```
+List.map (\x -> x + 2) [1, 2, 3, 4]
+```
+
+```
+List.map ((+) 2) [1, 2, 3, 4]
+```
+
+---
+
+## Pipes
+
+```
+incrementWeight (incrementHeight (incrementAge (makePerson "jack")))
+
+makePerson "jack"
+|> incrementAge
+|> incrementHeight
+|> incrementWeight
+```
+
+---
+
+## Clean syntax
+
+```
+incrementAge person =
+  { person | age = person.age + 1 }
+
+
+add x y = 
+  x + y
+
+addTwo =
+  add 2
+```
 
 ---
 
@@ -204,8 +277,588 @@ Add a branch to cover this pattern!
 
 ---
 
+## Types
+
+```
+add : Int -> Int -> Int
+isEven : Int -> Bool
+```
+
+---
+
+## Union Types
+
+```
+type Filter
+  = ShowAll
+  | ShowCompleted
+  | ShowActive
+
+showTodos : Filter -> List Todo -> List Todo
+showTodos filter todos =
+  case filter of
+    ShowAll -> todos
+    ShowCompleted -> List.filter (\t -> t.complete) todos
+    ShowActive -> List.filter (\t -> not t.complete) todos
+```
+
+---
+
+## Union Types
+
+:+1: They can be checked by the compiler (typos are spotted)
+
+:+1: Compiler ensures all are dealt with in `case ... of`
+
+:+1: Easy to change / add a new one: add it and fix each compiler error!
+
+---
+
+TODO: find the proper name for these
+
+## "Placeholder" types
+
+```
+someFunc : a -> b -> a
+
+someFunc : Int -> Bool -> Int
+someFunc : String -> Bool -> String
+someFunc : String -> Int -> String
+```
+
+---
+
+## Type aliases
+
+```
+type alias Person = {
+  name : String,
+  age : Int
+}
+
+incrementAge : Person -> Person
+incrementAge person =
+  { person | person.age = person.age + 1 }
+```
+
+---
+
+:+1: Clearer code, typed in your domain specific objects.
+
+:+1: Compiler can guarantee you're meeting the type requirements.
+
+:+1: No more 'undefined is not a function' !
+
+---
+
 ## Robust
 
 ---
 
+## Immutability brings guarantees
+
+```js
+var person = { name: 'Jack', age: 24 };
+
+incrementAge(person);
+
+// has this mutated?
+// does it return a new person?
+// #javascript
+```
+
+---
+
+## Sweet, sweet Elm
+
+```
+let
+  person = { name = "Jack", age = 24 }
+in
+  incrementAge person
+```
+
+:+1: `person` is untouched
+:+1: `incrementAge` has to return a new person
+:+1: goodbye mutation bugs
+
+---
+
+## Dealing with nothing
+
+No more null.
+
+---
+
+## Maybe
+
+```
+type Maybe a =
+  Just a
+  | Nothing
+
+```
+
+It's either `Just` some value, or `Nothing`.
+
+---
+
+## Maybe
+
+```
+type alias Model = {
+  user : Maybe User
+}
+
+view : Model -> Html a
+view model =
+  case model.user of 
+    Nothing ->
+      div [] [ text "No user!" ]
+    Just user ->
+      div [] [ text ("Logged in as " ++ user.name) ]
+```
+
+---
+
+## You must handle all cases of missing / pending data
+
+---
+
+## Task
+
+A module for async actions that might fail (HTTP).
+
+```
+Task errType successType
+```
+
+```
+Task String User
+- if it fails, fail with a String
+- if it succeeds, succeed with a User
+```
+
+---
+
+## You have to deal with errors.
+
+`Task` doesn't let you not.
+
+(We'll come back to this later).
+
+---
+
+## Reactivity
+
+- Data changes
+- Async activities
+
+---
+
+## Commands and Subcriptions
+
+- `Cmd` : an async thing that Elm should run for you
+- `Sub` : a subscription to some data you care about that might change
+
+---
+
+## You can never have a case that's not dealt with
+
+The compiler (and native modules) makes sure of it.
+
+---
+
+## Adjustment time
+
+This does take time to get used to
+
+* Syntax
+* Types
+* Immutablility
+* Compiling!
+* `Maybe` and explicit error handling
+
+---
+
+```
+user clicks
+-> action
+-> update(action, state)
+-> view(newState) || run command
+-> command causes new action
+-> update(action, state)
+-> view(newState) || no commands
+```
+
+---
+
+## The Elm Architecture
+
+---
+
+The three parts:
+
+```
+model : Model
+view : Model -> Html a
+update : Msg -> Model -> Model
+
+```
+
+---
+
+## Counter
+
+---
+
+First, define your `Model`
+
+```
+type alias Model = Int
+
+initialModel : Model
+initialModel = 0
+```
+
+---
+
+Secondly, define your `Msg`s
+
+```
+type Msg = Increment | Decrement
+```
+
+---
+
+Thirdly, define your `update`:
+
+```
+update : Msg -> Model -> Model
+update msg model =
+  case msg of 
+    Increment -> model + 1
+    Decrement -> model - 1
+```
+
+---
+
+Fourthly, define your `view`:
+
+```
+view : Model -> Html Msg
+view model =
+  div []
+    [ button [ onClick Decrement ] [ text "-" ]
+    , div [] [ text (toString model) ]
+    , button [ onClick Increment ] [ text "+" ]
+    ]
+```
+---
+
+Finally, hook it all up!
+
+```
+main =
+  Html.beginnerProgram
+    { model = initialModel
+    , view = view
+    , update = update
+    }
+```
+
+---
+
+:+1: We left the `view` until last.
+:+1: Explained all our logic before the UI.
+:+1: Notice how easy `update` would be to test.
+
+---
+
+## Commands
+
+---
+
+Whenever you need to perform some background work, you have to give Elm a command.
+
+Elm will go off, perform the command, and call your `update` function once it's done.
+
+---
+
+## Fetching someone's GitHub data.
+
+---
+
+Firstly, define the model:
+
+```
+type alias GithubPerson =
+  { name : String
+  , company : String
+  }
+
+type alias Model =
+  { username : String
+  , githubPerson : Maybe GithubPerson
+  }
+```
+
+---
+
+Secondly, define your `Msg`s
+
+```
+type Msg
+  = NewGithubData GithubPerson
+  | FetchGithubData
+  | FetchError Http.Error
+```
+
+---
+
+Thirdly, define your `update` (and note the new type)
+
+```
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+  case msg of
+    FetchError error ->
+      -- deal with error here in reality
+
+    NewGithubData person ->
+      ( { model | githubPerson = Just person }, Cmd.none )
+
+    FetchGithubData ->
+      ( model, fetchGithubData model.username )
+```
+
+---
+
+Fourthly, define your `view`:
+
+```
+view : Model -> Html Msg
+view model =
+  case model.githubPerson of
+    Just person ->
+      div []
+        [ text (person.name ++ ", " ++ person.company) ]
+    Nothing ->
+      div [] [
+        button [ onClick FetchGithubData ] [ text "Load!" ]
+      ]
+```
+
+---
+
+Fifthly (new step), define  your `init`:
+
+```
+initialModel : Model
+initialModel =
+  { username = "jackfranklin"
+  , githubPerson = Nothing
+  }
+
+
+init : ( Model, Cmd Msg )
+init =
+  ( initialModel, Cmd.none )
+```
+
+---
+
+Finally, hook it all together!
+
+```
+main = 
+  Html.App.program
+    { init = init
+    , view = view
+    , update = update
+    , subscriptions = \_ -> Sub.none
+    }
+```
+
+---
+
+![fit autoplay loop](github-person-works.mov)
+
+---
+
+> That feels like a lot of code!
+
+-- All of you.
+
+---
+
+> Boilerplate vs Explicitness
+
+---
+
+> Benefits increase as application grows
+
+---
+
+## Fetching Data
+
+---
+
+## Decoding JSON
+
+```
+githubDecoder : Json.Decoder GithubPerson
+githubDecoder =
+  Json.object2 GithubPerson
+    ("name" := Json.string)
+    ("company" := Json.string)
+
+```
+---
+
+## Making the request
+
+```
+fetchGithubData : String -> Cmd Msg
+fetchGithubData username =
+  Http.get githubDecoder (apiUrl username)
+      |> Task.perform FetchError NewGithubData
+```
+
+---
+
+#### `Http.get : Json.Decode.Decoder a -> String -> Task Http.Error a`
+
+- takes a decoder that decodes into type `a` and a string (the URL)
+- returns a `Task` that either fails with `Http.Error` or succeeds with type `a`
+
+---
+
+#### `Task.perform : (a -> b) -> (c -> b) -> Task a c -> Cmd b`
+
+- takes a function that takes type `a` and returns type `b`
+
+- takes a function that takes type `c` and returns type `b`
+
+- takes a `Task` that fails with `a` and succeeds with `c`
+
+- returns a `Cmd` of type `b`
+
+---
+
+#### `Task.perform : (a -> Msg) -> (c -> Msg) -> Task a c -> Cmd Msg`
+#### `Task.perform : errorHander successHandler task`
+
+- takes a task that will fail or succeed
+- takes an error function that can convert the failure to a `Msg`
+- takes a success function that can convert the success to a `Msg`
+- Returns a `Cmd` that will perform the task in the background.
+
+---
+
+### `github.com/jackfranklin/elm-for-js-developers`
+
+---
+
+## Scaling your application
+
+---
+
+> It's just components all the way down!
+
+---
+
+## The Elm Ecosystem
+
+---
+
+```
+elm reactor
+```
+
+---
+
+```
+elm package
+```
+
+get a elm package diff error here
+
+---
+
+```
+elm format
+```
+
+---
+
+## There's so much more I haven't covered.
+
+---
+
+> So, why / when should you use Elm?
+
+---
+
+> You're fed up of `undefined function` errors that take up loads of time
+
+---
+
+> You're fed up of packages on npm breaking semantic versioning
+
+---
+
+> You want to develop with the confidence of Types and a clever compiler to back you up
+
+---
+
+> You're happy to "ride the wave" and deal with a language still growing and settling down
+
+---
+
+> You're happy to build more packages than depend on existing solutions which may not exist in Elm
+
+---
+
+# But what if this talk has put me off Elm?
+
+---
+
+## Elm does take time to learn, so please don't give up after 30 minutes of slides!
+
+### guide.elm-lang.org
+
+---
+
+## Elm the language brings many concepts that are language agnostic
+
+---
+
+## The Elm Architecture
+
+---
+
+## Explicitness across your application
+
+---
+
+## Types
+
+---
+
+## Immutability / Functional Programming
+
+---
+
+# Watch this space
+
+---
+
+# @Jack_Franklin
+
+### javascriptplayground.com
+
+---
+
+# 🇷🇴 Thank you 🇷🇴
 
