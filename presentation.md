@@ -14,6 +14,10 @@
 
 ---
 
+## The great tooling problem
+
+---
+
 ## We must accept that complex applications are _hard_ to build
 
 ---
@@ -22,15 +26,7 @@
 
 ---
 
-## And that this is fine
-
----
-
-## Trends
-
----
-
-## Complex JavaScript Applications
+## Trends in Complex JavaScript Applications
 
 ---
 
@@ -38,7 +34,15 @@
 
 ---
 
+## `Object.observe`
+
+---
+
 ## MVC / MVVC / MCVCVMMCVCCC
+
+---
+
+## "Let's replicate Rails"
 
 ---
 
@@ -50,17 +54,35 @@
 
 ---
 
+![fit](http://red-badger.com/blog/wp-content/uploads/2015/04/react-logo-1000-transparent.png)
+
+---
+
+## Components
+
+- Angular 2
+- Ember
+- Vue.js
+- React
+
+---
+
+## Explicit about state
+
+---
+
 ## Single source of truth
 
 ---
 
-## Views represent state
+## Views represent state<br><br>
 
 ## `view(state) => HTML`
 
 ---
 
-## View functions are pure
+## View functions are pure<br><br>
+
 ## `view(state1) => HTML1`
 ## `view(state1) => HTML1`
 ## `view(state2) => HTML2`
@@ -82,13 +104,19 @@ function addTodo() {
 
 ## Have `update` functions that can handle actions
 
-## `update(action, state) => newState`
+```
+update(action, state) => newState
+```
 
 ---
 
-## These are pure, too
+## These are pure, too<br><br>
 ## `update(a1, s1) => newState1`
 ## `update(a1, s1) => newState1`
+
+---
+
+## `update` encapsulates most business logic
 
 ---
 
@@ -103,7 +131,11 @@ user clicks
 
 ---
 
-## Effects / Async
+![fit](unidirectional.png)
+
+---
+
+## Side Effects
 
 ---
 
@@ -121,20 +153,22 @@ user clicks
 
 ---
 
-## Effects (or Commands)
+## Explicit Side Effects<br><br>
 
-## `update(action, state) => (newState, command)`
+```
+update(action, state) => (newState, command)
+```
 
 ---
 
 ```
 user clicks
 -> action
--> update(action, state)
--> view(newState) || run command
--> command causes new action
--> update(action, state)
--> view(newState) || no commands
+-> update(action, state) => (newState, cmdA)
+-> view(newState) (cmdARuns)
+-> cmdA returns
+-> update(action, state) => (newestState, none)
+-> view(newestState) || no commands
 ```
 
 ---
@@ -166,6 +200,7 @@ function update(action, state) {
 ```
 
 ---
+
 
 ## Even more explicit!
 
@@ -204,6 +239,10 @@ Add a branch to cover this pattern!
 
 ---
 
+## Elm: a _language_ to solve these problems.
+
+---
+
 ![left](sherlock.jpeg)
 
 > Elm, my Dear Watson
@@ -233,6 +272,16 @@ Add a branch to cover this pattern!
 ---
 
 ## Functional Programming
+
+```js
+add(1, 2)
+```
+
+```
+(add 1 2)
+```
+
+---
 
 ```
 List.map (\x -> x + 2) [1, 2, 3, 4]
@@ -314,9 +363,7 @@ showTodos filter todos =
 
 ---
 
-TODO: find the proper name for these
-
-## "Placeholder" types
+## Type variables
 
 ```
 someFunc : a -> b -> a
@@ -410,7 +457,7 @@ type alias Model = {
   user : Maybe User
 }
 
-view : Model -> Html a
+view : Model -> Html Msg
 view model =
   case model.user of 
     Nothing ->
@@ -463,12 +510,6 @@ Task String User
 
 ---
 
-## You can never have a case that's not dealt with
-
-The compiler (and native modules) makes sure of it.
-
----
-
 ## Adjustment time
 
 This does take time to get used to
@@ -501,7 +542,7 @@ The three parts:
 
 ```
 model : Model
-view : Model -> Html a
+view : Model -> Html Msg
 update : Msg -> Model -> Model
 
 ```
@@ -509,6 +550,14 @@ update : Msg -> Model -> Model
 ---
 
 ## Counter
+
+---
+
+## Live coding...
+
+---
+
+## Use these slides if the live coding goes dreadfully
 
 ---
 
@@ -560,7 +609,7 @@ Finally, hook it all up!
 
 ```
 main =
-  Html.beginnerProgram
+  Html.App.beginnerProgram
     { model = initialModel
     , view = view
     , update = update
@@ -734,18 +783,6 @@ fetchGithubData username =
 
 ---
 
-#### `Task.perform : (a -> b) -> (c -> b) -> Task a c -> Cmd b`
-
-- takes a function that takes type `a` and returns type `b`
-
-- takes a function that takes type `c` and returns type `b`
-
-- takes a `Task` that fails with `a` and succeeds with `c`
-
-- returns a `Cmd` of type `b`
-
----
-
 #### `Task.perform : (a -> Msg) -> (c -> Msg) -> Task a c -> Cmd Msg`
 #### `Task.perform : errorHander successHandler task`
 
@@ -772,9 +809,9 @@ fetchGithubData username =
 
 ---
 
-```
-elm reactor
-```
+## `elm reactor`
+
+Easily run a project in the browser with no tooling required.
 
 ---
 
@@ -782,13 +819,24 @@ elm reactor
 elm package
 ```
 
-get a elm package diff error here
+Semantic versioning ensured.
+
+```
+~/git/elm-statey > elm package diff
+Comparing jackfranklin/elm-statey 2.0.0 to local changes...
+This is a MAJOR change.
+
+------ Changes to module Statey - MAJOR ------
+
+    Changed:
+      - makeState : String -> Statey.State
+      + makeState : Statey.State
+
+```
 
 ---
 
-```
-elm format
-```
+## `elm format`
 
 ---
 
@@ -850,15 +898,28 @@ elm format
 
 ---
 
-# Watch this space
+## Defining your application step by step
+
+1. Define your model.
+2. Define your actions.
+3. Define your update function.
+4. Define your view.
+5. Repeat.
+
+---
+
+## Will everyone be writing Elm in 1/2/5 years?
 
 ---
 
 # @Jack_Franklin
 
-### javascriptplayground.com
+## javascriptplayground.com
+
+#### javascriptplayground.com/elm-jscamp.html
 
 ---
 
 # 🇷🇴 Thank you 🇷🇴
+
 
