@@ -2,6 +2,10 @@
 
 ---
 
+# 🇷🇴
+
+---
+
 ## @Jack_Franklin
 
 ---
@@ -64,6 +68,10 @@
 - Ember
 - Vue.js
 - React
+
+---
+
+## Who actually likes JavaScript these days?!
 
 ---
 
@@ -251,6 +259,14 @@ Add a branch to cover this pattern!
 
 ---
 
+## _Not_ the finished article
+
+---
+
+## _Not_ the perfect language (yet?!)
+
+---
+
 * Functional
 * Typed
 * Compiled
@@ -328,6 +344,18 @@ addTwo =
 
 ## Types
 
+Dynamic languages are a foolish friend.
+
+---
+
+## 😍♥️ ❤️ ❤️😍
+
+![right](https://ga-core.s3.amazonaws.com/production/uploads/instructor/image/904/timruffles.png)
+
+---
+
+## Types
+
 ```
 add : Int -> Int -> Int
 isEven : Int -> Bool
@@ -378,10 +406,10 @@ someFunc : String -> Int -> String
 ## Type aliases
 
 ```
-type alias Person = {
-  name : String,
-  age : Int
-}
+type alias Person = 
+  { name : String
+  , age : Int
+  }
 
 incrementAge : Person -> Person
 incrementAge person =
@@ -395,6 +423,17 @@ incrementAge person =
 :+1: Compiler can guarantee you're meeting the type requirements.
 
 :+1: No more 'undefined is not a function' !
+
+---
+
+```
+type alias Person = 
+  { name : String
+  , age : Int
+  }
+```
+
+![inline](https://i.ytimg.com/vi/SsoOG6ZeyUI/maxresdefault.jpg)
 
 ---
 
@@ -428,6 +467,16 @@ in
 :+1: `person` is untouched
 :+1: `incrementAge` has to return a new person
 :+1: goodbye mutation bugs
+
+---
+
+## Modules
+
+:+1: Everything is scoped
+
+:+1: Modules explicitly declare what they expose
+
+:+1: Modules explicitly declare what they import
 
 ---
 
@@ -522,6 +571,10 @@ This does take time to get used to
 
 ---
 
+## Elm: no runtime errors
+
+---
+
 ```
 user clicks
 -> action
@@ -553,11 +606,15 @@ update : Msg -> Model -> Model
 
 ---
 
-## Live coding...
+## Live coding...  😁
 
 ---
 
 ## Use these slides if the live coding goes dreadfully
+
+And Jack failed miserably.
+
+(Check if anyone's left in the room).
 
 ---
 
@@ -912,11 +969,22 @@ This is a MAJOR change.
 
 ---
 
+![fit](game-is-on.jpg)
+
+---
+
+- javascriptplayground.com/elm-jscamp.html 
+
+
+- guide.elm-lang.org
+
+- elm-lang.org/docs
+
+---
+
 # @Jack_Franklin
 
 ## javascriptplayground.com
-
-#### javascriptplayground.com/elm-jscamp.html
 
 ---
 
