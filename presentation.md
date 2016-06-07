@@ -60,7 +60,7 @@
 
 ## Components
 
-- Angular 2
+- Angular 2 (thanks Tim!)
 - Ember
 - Vue.js
 - React
