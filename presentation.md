@@ -6,6 +6,10 @@
 
 ---
 
+## Good morning Buchapest!
+
+---
+
 ## @Jack_Franklin
 
 ---
@@ -15,6 +19,10 @@
 ---
 
 ![fit](elm_logo.png)
+
+---
+
+![](http://3.bp.blogspot.com/-PTty3CfTGnA/TpZOEjTQ_WI/AAAAAAAAAeo/KeKt_D5X2xo/s1600/js.jpg)
 
 ---
 
@@ -264,6 +272,10 @@ Add a branch to cover this pattern!
 ---
 
 ## _Not_ the perfect language (yet?!)
+
+---
+
+## _No_ runtime errors!
 
 ---
 
@@ -979,6 +991,8 @@ This is a MAJOR change.
 - guide.elm-lang.org
 
 - elm-lang.org/docs
+
+- elm-lang.org/community
 
 ---
 
