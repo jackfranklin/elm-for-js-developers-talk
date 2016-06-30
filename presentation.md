@@ -1,3 +1,7 @@
+footer: @Jack_Franklin, bit.ly/elm-polyconf
+slidenumbers: true
+
+
 ![fit](elm_logo.png)
 
 ---
@@ -808,51 +812,14 @@ main =
 
 ## Fetching Data
 
----
-
-## Decoding JSON
-
-```
-githubDecoder : Json.Decoder GithubPerson
-githubDecoder =
-  Json.object2 GithubPerson
-    ("name" := Json.string)
-    ("company" := Json.string)
-
-```
----
-
-## Making the request
-
-```
-fetchGithubData : String -> Cmd Msg
-fetchGithubData username =
-  Http.get githubDecoder (apiUrl username)
-      |> Task.perform FetchError NewGithubData
-```
+- Decoding JSON from an API into an Elm record.
+- Use Elm's HTTP library to make the request.
+- Code in the GitHub repo!
+- Come and grab me if you'd like to see it in person.
 
 ---
 
-#### `Http.get : Json.Decode.Decoder a -> String -> Task Http.Error a`
-
-- takes a decoder that decodes into type `a` and a string (the URL)
-- returns a `Task` that either fails with `Http.Error` or succeeds with type `a`
-
----
-
-#### `Task.perform : (a -> Msg) -> (c -> Msg) -> Task a c -> Cmd Msg`
-#### `Task.perform : errorHander successHandler task`
-
-- takes a task that will fail or succeed
-- takes an error function that can convert the failure to a `Msg`
-- takes a success function that can convert the success to a `Msg`
-- Returns a `Cmd` that will perform the task in the background.
-
----
-
-### `github.com/jackfranklin/elm-for-js-developers`
-
-Pick the `polyconf` branch!
+### `http://bit.ly/elm-polyconf`
 
 ---
 
@@ -860,7 +827,7 @@ Pick the `polyconf` branch!
 
 ---
 
-> It's just components all the way down!
+![fit](mvu1.jpeg)
 
 ---
 
@@ -988,6 +955,8 @@ This is a MAJOR change.
 - elm-lang.org/docs
 
 - elm-lang.org/community
+
+- **bit.ly/elm-polyconf**
 
 ---
 
