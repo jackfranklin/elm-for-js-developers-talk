@@ -958,6 +958,8 @@ This is a MAJOR change.
 
 - **bit.ly/elm-polyconf**
 
+- speakerdeck.com/jackfranklin
+
 ---
 
 # @Jack_Franklin
