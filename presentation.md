@@ -34,10 +34,6 @@
 
 ---
 
-## And that no tool / language can ever make them truly _easy_
-
----
-
 ## Trends in Complex JavaScript Applications
 
 ---
@@ -181,7 +177,6 @@ function update(action, state) {
 
 ---
 
-
 ## Even more explicit!
 
 ```
@@ -277,8 +272,6 @@ add(1, 2)
 (add 1 2)
 ```
 
----
-
 ```
 List.map (\x -> x + 2) [1, 2, 3, 4]
 ```
@@ -356,18 +349,6 @@ showTodos filter todos =
 :+1: Compiler ensures all are dealt with in `case ... of`
 
 :+1: Easy to change / add a new one: add it and fix each compiler error!
-
----
-
-## Type variables
-
-```
-someFunc : a -> b -> a
-
-someFunc : Int -> Bool -> Int
-someFunc : String -> Bool -> String
-someFunc : String -> Int -> String
-```
 
 ---
 
@@ -893,9 +874,17 @@ Easily run a project in the browser with no tooling required.
 
 ---
 
-```
-elm package
-```
+![fit autoplay loop](elm-reactor.mov)
+
+---
+
+## `elm package`
+
+---
+
+![fit autoplay loop](elm-package.mov)
+
+---
 
 Semantic versioning ensured.
 
