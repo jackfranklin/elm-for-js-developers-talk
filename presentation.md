@@ -2,11 +2,11 @@
 
 ---
 
-# 🇷🇴
+# 🇵🇱
 
 ---
 
-## Good morning Buchapest!
+![fit](iceland.jpg)
 
 ---
 
@@ -62,7 +62,7 @@
 
 ---
 
-## Component based approach
+## Explicit, component based approach
 
 ---
 
@@ -70,11 +70,12 @@
 
 ---
 
-## Components
+## Components in some form
 
-- Angular 2 (thanks Tim!)
+- Angular 2
 - Ember
 - Vue.js
+- Cycle.js
 - React
 
 ---
@@ -126,12 +127,6 @@ update(action, state) => newState
 
 ---
 
-## These are pure, too<br><br>
-## `update(a1, s1) => newState1`
-## `update(a1, s1) => newState1`
-
----
-
 ## `update` encapsulates most business logic
 
 ---
@@ -147,47 +142,16 @@ user clicks
 
 ---
 
+## Recommended Reading
+
+:arrow_right: [Unidirectional User Interface Architectures](http://staltz.com/unidirectional-user-interface-architectures.html) by André Staltz
+
+---
+
 ![fit](unidirectional.png)
 
 ---
 
-## Side Effects
-
----
-
-## Async actions
-
-```
-user clicks
--> asyncActionFires
--> update(action, state)
--> view(newState)
--> asyncActionReturns
--> update(action, state)
--> view(newState)
-```
-
----
-
-## Explicit Side Effects<br><br>
-
-```
-update(action, state) => (newState, command)
-```
-
----
-
-```
-user clicks
--> action
--> update(action, state) => (newState, cmdA)
--> view(newState) (cmdARuns)
--> cmdA returns
--> update(action, state) => (newestState, none)
--> view(newestState) || no commands
-```
-
----
 
 ## Explicit vs Magic
 
@@ -275,6 +239,10 @@ Add a branch to cover this pattern!
 
 ---
 
+## _Not_ the perfect solution to all our problems
+
+---
+
 ## _No_ runtime errors!
 
 ---
@@ -351,18 +319,6 @@ addTwo =
 ---
 
 ## Self documenting
-
----
-
-## Types
-
-Dynamic languages are a foolish friend.
-
----
-
-## 😍♥️ ❤️ ❤️😍
-
-![right](https://ga-core.s3.amazonaws.com/production/uploads/instructor/image/904/timruffles.png)
 
 ---
 
@@ -557,17 +513,12 @@ Task String User
 
 ---
 
-## Reactivity
-
-- Data changes
-- Async activities
-
----
-
 ## Commands and Subcriptions
 
 - `Cmd` : an async thing that Elm should run for you
 - `Sub` : a subscription to some data you care about that might change
+
+(We'll come back to these).
 
 ---
 
@@ -583,19 +534,15 @@ This does take time to get used to
 
 ---
 
-## Elm: no runtime errors
+> When you apply a pattern everywhere it ends up becoming a guarantee: that 100% of your code will follow that pattern. Once you have that guarantee you can build powerful developer tools or cross module features.
+
+-- [Everywhereness as a Foundation](http://staltz.com/everywhereness-as-a-foundation.html), André Staltz
 
 ---
 
-```
-user clicks
--> action
--> update(action, state)
--> view(newState) || run command
--> command causes new action
--> update(action, state)
--> view(newState) || no commands
-```
+> The Elm compiler make sure that 100% of your code is thoroughly checked against corner cases and error cases. This everywhereness becomes a guarantee. And it is only because of this guarantee that Elm programs have virtually no runtime errors.
+
+-- [Everywhereness as a Foundation](http://staltz.com/everywhereness-as-a-foundation.html), André Staltz
 
 ---
 
@@ -609,24 +556,15 @@ The three parts:
 model : Model
 view : Model -> Html Msg
 update : Msg -> Model -> Model
-
 ```
 
 ---
 
+![fit](mvu1.jpeg)
+
+---
+
 ## Counter
-
----
-
-## Live coding...  😁
-
----
-
-## Use these slides if the live coding goes dreadfully
-
-And Jack failed miserably.
-
-(Check if anyone's left in the room).
 
 ---
 
@@ -687,9 +625,23 @@ main =
 
 ---
 
+![fit loop autoplay](counter-video.mov)
+
+---
+
 :+1: We left the `view` until last.
 :+1: Explained all our logic before the UI.
 :+1: Notice how easy `update` would be to test.
+
+---
+
+## Side Effects
+
+---
+
+### Explicitly model side effects.
+
+Hand off to Elm, it will hand back later.
 
 ---
 
@@ -700,6 +652,18 @@ main =
 Whenever you need to perform some background work, you have to give Elm a command.
 
 Elm will go off, perform the command, and call your `update` function once it's done.
+
+---
+
+```
+model : Model
+view : Model -> Html Msg
+update : Msg -> Model -> (Model, Cmd Msg)
+```
+
+---
+
+![fit](mvu2.jpeg)
 
 ---
 
@@ -749,6 +713,25 @@ update msg model =
     FetchGithubData ->
       ( model, fetchGithubData model.username )
 ```
+
+---
+
+```
+NewGithubData person ->
+  ( { model | githubPerson = Just person }, Cmd.none )
+
+-- Cmd.none === do nothing
+
+FetchGithubData ->
+  ( model, fetchGithubData model.username )
+
+--- fetchGithubData returns a command
+--- which Elm will run for us
+```
+
+---
+
+![fit](mvu2.jpeg)
 
 ---
 
@@ -804,7 +787,31 @@ main =
 
 ---
 
-> That feels like a lot of code!
+![fit](github1.jpeg)
+
+---
+
+![fit](github2.jpeg)
+
+---
+
+![fit](github3.jpeg)
+
+---
+
+![fit](github4.jpeg)
+
+---
+
+![fit](github5.jpeg)
+
+---
+
+![fit](github-diagram.jpeg)
+
+---
+
+> That feels like a lot of code / effort!
 
 -- All of you.
 
@@ -863,6 +870,8 @@ fetchGithubData username =
 ---
 
 ### `github.com/jackfranklin/elm-for-js-developers`
+
+Pick the `polyconf` branch!
 
 ---
 
@@ -985,9 +994,6 @@ This is a MAJOR change.
 
 ---
 
-- javascriptplayground.com/elm-jscamp.html 
-
-
 - guide.elm-lang.org
 
 - elm-lang.org/docs
@@ -1002,6 +1008,6 @@ This is a MAJOR change.
 
 ---
 
-# 🇷🇴 Thank you 🇷🇴
+![fit](poland.png)
 
 

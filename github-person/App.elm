@@ -39,7 +39,7 @@ githubDecoder =
 
 fetchGithubData : String -> Cmd Msg
 fetchGithubData username =
-    Http.get githubDecoder ("http://localhost:3001/users/" ++ username)
+    Http.get githubDecoder ("https://api.github.com/users/" ++ username)
         |> Task.perform FetchError NewGithubData
 
 
