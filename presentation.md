@@ -183,7 +183,7 @@ function update(action, state) {
 
 ## Even more explicit!
 
-```
+```elm
 type Msg =
   NewUser String
   | LogOut
@@ -193,14 +193,14 @@ type Msg =
 
 ## Even more explicit because the compiler says so
 
-```
+```elm
 update msg model =
   case msg of
     NewUser name ->
       { model | user = name }
 ```
 
-```
+```elm
 This `case` does not have branches for all possibilities.
 
 22|>    case msg of
@@ -272,15 +272,15 @@ Add a branch to cover this pattern!
 add(1, 2)
 ```
 
-```
+```elm
 (add 1 2)
 ```
 
-```
+```elm
 List.map (\x -> x + 2) [1, 2, 3, 4]
 ```
 
-```
+```elm
 List.map ((+) 2) [1, 2, 3, 4]
 ```
 
@@ -288,7 +288,7 @@ List.map ((+) 2) [1, 2, 3, 4]
 
 ## Pipes
 
-```
+```elm
 incrementWeight (incrementHeight (incrementAge (makePerson "jack")))
 
 makePerson "jack"
@@ -301,7 +301,7 @@ makePerson "jack"
 
 ## Clean syntax
 
-```
+```elm
 incrementAge person =
   { person | age = person.age + 1 }
 
@@ -321,7 +321,7 @@ addTwo =
 
 ## Types
 
-```
+```elm
 add : Int -> Int -> Int
 isEven : Int -> Bool
 ```
@@ -330,7 +330,7 @@ isEven : Int -> Bool
 
 ## Union Types
 
-```
+```elm
 type Filter
   = ShowAll
   | ShowCompleted
@@ -358,7 +358,7 @@ showTodos filter todos =
 
 ## Type aliases
 
-```
+```elm
 type alias Person = 
   { name : String
   , age : Int
@@ -379,7 +379,7 @@ incrementAge person =
 
 ---
 
-```
+```elm
 type alias Person = 
   { name : String
   , age : Int
@@ -410,7 +410,7 @@ incrementAge(person);
 
 ## Sweet, sweet Elm
 
-```
+```elm
 let
   person = { name = "Jack", age = 24 }
 in
@@ -441,7 +441,7 @@ No more null.
 
 ## Maybe
 
-```
+```elm
 type Maybe a =
   Just a
   | Nothing
@@ -454,7 +454,7 @@ It's either `Just` some value, or `Nothing`.
 
 ## Maybe
 
-```
+```elm
 type alias Model = {
   user : Maybe User
 }
@@ -478,11 +478,11 @@ view model =
 
 A module for async actions that might fail (HTTP).
 
-```
+```elm
 Task errType successType
 ```
 
-```
+```elm
 Task String User
 - if it fails, fail with a String
 - if it succeeds, succeed with a User
@@ -537,7 +537,7 @@ This does take time to get used to
 
 The three parts:
 
-```
+```elm
 model : Model
 view : Model -> Html Msg
 update : Msg -> Model -> Model
@@ -555,7 +555,7 @@ update : Msg -> Model -> Model
 
 First, define your `Model`
 
-```
+```elm
 type alias Model = Int
 
 initialModel : Model
@@ -566,7 +566,7 @@ initialModel = 0
 
 Secondly, define your `Msg`s
 
-```
+```elm
 type Msg = Increment | Decrement
 ```
 
@@ -574,7 +574,7 @@ type Msg = Increment | Decrement
 
 Thirdly, define your `update`:
 
-```
+```elm
 update : Msg -> Model -> Model
 update msg model =
   case msg of 
@@ -586,7 +586,7 @@ update msg model =
 
 Fourthly, define your `view`:
 
-```
+```elm
 view : Model -> Html Msg
 view model =
   div []
@@ -599,7 +599,7 @@ view model =
 
 Finally, hook it all up!
 
-```
+```elm
 main =
   Html.App.beginnerProgram
     { model = initialModel
@@ -640,7 +640,7 @@ Elm will go off, perform the command, and call your `update` function once it's 
 
 ---
 
-```
+```elm
 model : Model
 view : Model -> Html Msg
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -658,7 +658,7 @@ update : Msg -> Model -> (Model, Cmd Msg)
 
 Firstly, define the model:
 
-```
+```elm
 type alias GithubPerson =
   { name : String
   , company : String
@@ -674,7 +674,7 @@ type alias Model =
 
 Secondly, define your `Msg`s
 
-```
+```elm
 type Msg
   = NewGithubData GithubPerson
   | FetchGithubData
@@ -685,7 +685,7 @@ type Msg
 
 Thirdly, define your `update` (and note the new type)
 
-```
+```elm
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
   case msg of
@@ -701,7 +701,7 @@ update msg model =
 
 ---
 
-```
+```elm
 NewGithubData person ->
   ( { model | githubPerson = Just person }, Cmd.none )
 
@@ -722,7 +722,7 @@ FetchGithubData ->
 
 Fourthly, define your `view`:
 
-```
+```elm
 view : Model -> Html Msg
 view model =
   case model.githubPerson of
@@ -739,7 +739,7 @@ view model =
 
 Fifthly (new step), define  your `init`:
 
-```
+```elm
 initialModel : Model
 initialModel =
   { username = "jackfranklin"
@@ -756,7 +756,7 @@ init =
 
 Finally, hook it all together!
 
-```
+```elm
 main = 
   Html.App.program
     { init = init
