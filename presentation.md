@@ -1,4 +1,3 @@
-footer: @Jack_Franklin, bit.ly/elm-polyconf
 slidenumbers: true
 
 
@@ -6,11 +5,7 @@ slidenumbers: true
 
 ---
 
-# 🇵🇱
-
----
-
-![fit](iceland.jpg)
+# 🇪🇸
 
 ---
 
@@ -18,7 +13,7 @@ slidenumbers: true
 
 ---
 
-![fit](pusher_cloud.png)
+![fit](songkick.png)
 
 ---
 
@@ -26,15 +21,11 @@ slidenumbers: true
 
 ---
 
-![](http://3.bp.blogspot.com/-PTty3CfTGnA/TpZOEjTQ_WI/AAAAAAAAAeo/KeKt_D5X2xo/s1600/js.jpg)
+![fit](http://3.bp.blogspot.com/-PTty3CfTGnA/TpZOEjTQ_WI/AAAAAAAAAeo/KeKt_D5X2xo/s1600/js.jpg)
 
 ---
 
-## The great tooling problem
-
----
-
-## We must accept that complex applications are _hard_ to build
+## Building JavaScript Applications
 
 ---
 
@@ -80,33 +71,128 @@ slidenumbers: true
 
 ---
 
-## Who actually likes JavaScript these days?!
-
----
-
-## Explicit about state
+## The application owns its state
 
 ---
 
 ## Single source of truth
 
+(Not _necessarily_ in one place)
+
+---
+
+## http://todo.com/filter/completed
+
+```js
+{
+  todos: [{ ... }, { ... }],
+  filter: 'completed'
+}
+```
+
+Duplicate knowledge = out of sync quickly!
+
+---
+
+## _Most_ state lives in one place, with exceptions.
+
+---
+
+> It Depends
+
+---
+
+## Our UI becomes a representation of state at a given time
+
+---
+
+```js
+{
+  todos: [{
+      text: 'Do an Elm talk',
+      done: true
+    },
+  ...
+  ]
+}
+```
+
+![right fit](todomvc.png)
+
 ---
 
 ## Views represent state<br><br>
 
-## `view(state) => HTML`
+```js
+{
+  todos: [{
+      text: 'Do an Elm talk',
+      done: false
+    },
+  ...
+  ]
+}
+```
+
+![right fit](todomvc2.png)
 
 ---
 
-## View functions are pure<br><br>
+## Views represent state<br><br>
 
-## `view(state1) => HTML1`
-## `view(state1) => HTML1`
-## `view(state2) => HTML2`
+```js
+{
+  todos: [{
+      text: 'Do an Elm talk',
+      done: true
+    },
+  ...
+  ]
+}
+```
+
+![right fit](todomvc.png)
+
+---
+
+## Efficient rendering is not a developer concern*
+
+* Within reason
+
+---
+
+## Explicitly define how the user can modify the state
+
+---
+
+## And log when they do so
+
+---
+
+```javascript
+angular.controller('MyCtrl', function($scope) {
+    $scope.onClick = function() {
+      $scope.x = $scope.x + 1;
+    }
+
+    function fetchDataAndIncrement() {
+      fetch('api.com/data').then(function(data) {
+        $scope.data = data;
+        $scope.x = $scope.x + 1;
+      });
+    }
+});
+```
+
+---
+
+## Tracing the origin of some data change
 
 ---
 
 ## Explicitly define all actions that can modify state
+
+---
 
 ```js
 function addTodo() {
@@ -116,6 +202,8 @@ function addTodo() {
   }
 }
 ```
+
+These can be logged, stored, tracked, serialized and so on.
 
 ---
 
@@ -127,18 +215,29 @@ update(action, state) => newState
 
 ---
 
+```javascript
+const action = { type: 'USER_LOG_OUT'; };
+const currentState = { user: { name: 'Jack' } };
+
+const newState = update(action, currentState);
+newState => { user: undefined };
+```
+
+---
+
 ## `update` encapsulates most business logic
 
 ---
 
-## Unidirectional Data Flow
+## Data flow
 
-```
-user clicks
--> action
--> update(action, state)
--> view(newState)
-```
+![](http://static.thousandwonders.net/Amazon.River.original.2310.jpg)
+
+---
+
+![left fit](twoway.png)
+
+![right fit](oneway.png)
 
 ---
 
@@ -153,20 +252,11 @@ user clicks
 ---
 
 
-## Explicit vs Magic
+## Explictness
 
 ---
 
-## Magic!
-
-```js
-function setNewUser(name) {
-  $scope.user = { name : 'jack' };
-}
-```
----
-
-## Explicit!
+## Explictly deal with all user interactions and state changes
 
 ```js
 function update(action, state) {
@@ -181,7 +271,7 @@ function update(action, state) {
 
 ---
 
-## Even more explicit!
+## Even better!
 
 ```elm
 type Msg =
@@ -191,7 +281,7 @@ type Msg =
 
 ---
 
-## Even more explicit because the compiler says so
+## Impossible to mess up
 
 ```elm
 update msg model =
@@ -222,27 +312,11 @@ Add a branch to cover this pattern!
 
 ---
 
-![left](sherlock.jpeg)
-
-> Elm, my Dear Watson
-
--- Sherlock Holmes
-
----
-
-## _Not_ the finished article
-
----
-
 ## _Not_ the perfect language (yet?!)
 
 ---
 
 ## _Not_ the perfect solution to all our problems
-
----
-
-## _No_ runtime errors!
 
 ---
 
@@ -268,10 +342,6 @@ Add a branch to cover this pattern!
 
 ## Functional Programming
 
-```js
-add(1, 2)
-```
-
 ```elm
 (add 1 2)
 ```
@@ -296,6 +366,28 @@ makePerson "jack"
 |> incrementHeight
 |> incrementWeight
 ```
+
+---
+
+# 😢
+
+```elm
+makePerson "jack"
+|> incrementAge
+|> incrementHeight
+|> incrementWeight
+|> incrementWeight
+|> incrementWeight
+|> incrementWeight
+|> incrementWeight
+|> incrementWeight
+|> incrementWeight
+|> incrementWeight
+|> incrementWeight
+|> incrementWeight
+|> incrementWeight
+```
+
 
 ---
 
@@ -379,17 +471,6 @@ incrementAge person =
 
 ---
 
-```elm
-type alias Person = 
-  { name : String
-  , age : Int
-  }
-```
-
-![inline](https://i.ytimg.com/vi/SsoOG6ZeyUI/maxresdefault.jpg)
-
----
-
 ## Robust
 
 ---
@@ -439,6 +520,36 @@ No more null.
 
 ---
 
+> I call it my billion-dollar mistake. It was the invention of the null reference in 1965.
+
+---
+
+> But I couldn't resist the temptation to put in a null reference.
+
+---
+
+> This has led to innumerable errors, vulnerabilities, and system crashes
+
+-- Tony Hoare
+
+---
+
+# You might say it's a...hoare-able mistake!
+
+---
+
+# (You may leave)
+
+---
+
+## No null: how do you represent a value being present _or_ empty?
+
+---
+
+## Maybe
+
+---
+
 ## Maybe
 
 ```elm
@@ -449,6 +560,32 @@ type Maybe a =
 ```
 
 It's either `Just` some value, or `Nothing`.
+
+---
+
+As a value, I am:
+
+- __Just__ the integer 5
+- or, I am __Nothing__
+
+---
+
+```elm
+let list = [1, 2, 3] in
+```
+
+---
+
+Get the first thing from the list, and double it
+
+```elm
+let list = [1, 2, 3] in
+	(List.head list) * 2
+```
+
+---
+
+# ‼️
 
 ---
 
@@ -490,24 +627,13 @@ Task String User
 
 ---
 
-## You have to deal with errors.
+## Commands
 
-`Task` doesn't let you not.
-
-(We'll come back to this later).
+an async thing that Elm should run for you (HTTP requests)
 
 ---
 
-## Commands and Subcriptions
-
-- `Cmd` : an async thing that Elm should run for you
-- `Sub` : a subscription to some data you care about that might change
-
-(We'll come back to these).
-
----
-
-## Adjustment time
+## Learning curve!
 
 This does take time to get used to
 
