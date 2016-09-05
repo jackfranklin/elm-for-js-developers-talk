@@ -29,23 +29,20 @@ slidenumbers: true
 
 ---
 
-## Trends in Complex JavaScript Applications
+## "Let's replicate rails"
 
 ---
 
-## Two Way Data Binding
-
----
-
-## `Object.observe`
-
----
 
 ## MVC / MVVC / MCVCVMMCVCCC
 
 ---
 
-## "Let's replicate Rails"
+## Two way data binding
+
+---
+
+## `Object.observe`
 
 ---
 
@@ -61,13 +58,19 @@ slidenumbers: true
 
 ---
 
-## Components in some form
+Build web app is made up of _components_, not _controllers_.
 
-- Angular 2
-- Ember
-- Vue.js
-- Cycle.js
-- React
+`#componentsnotcontrollers`
+
+---
+
+![](twitter.png)
+
+---
+
+## Ch-ch-ch-changeess
+
+Dealing with data.
 
 ---
 
@@ -121,8 +124,6 @@ Duplicate knowledge = out of sync quickly!
 
 ---
 
-## Views represent state<br><br>
-
 ```js
 {
   todos: [{
@@ -137,8 +138,6 @@ Duplicate knowledge = out of sync quickly!
 ![right fit](todomvc2.png)
 
 ---
-
-## Views represent state<br><br>
 
 ```js
 {
@@ -155,9 +154,9 @@ Duplicate knowledge = out of sync quickly!
 
 ---
 
-## Efficient rendering is not a developer concern*
+## Efficient rendering is not a developer concern[^1]
 
-* Within reason
+[^1]: within reason, don't hate me
 
 ---
 
@@ -165,7 +164,7 @@ Duplicate knowledge = out of sync quickly!
 
 ---
 
-## And log when they do so
+## And be able to trace it
 
 ---
 
@@ -183,10 +182,6 @@ angular.controller('MyCtrl', function($scope) {
     }
 });
 ```
-
----
-
-## Tracing the origin of some data change
 
 ---
 
@@ -657,6 +652,10 @@ This does take time to get used to
 
 ---
 
+![fit](evanquote.png)
+
+---
+
 ## The Elm Architecture
 
 ---
@@ -934,26 +933,21 @@ main =
 
 > Benefits increase as application grows
 
----
-
-## Fetching Data
-
-- Decoding JSON from an API into an Elm record.
-- Use Elm's HTTP library to make the request.
-- Code in the GitHub repo!
-- Come and grab me if you'd like to see it in person.
+Which is often where JavaScript starts to struggle.
 
 ---
 
-### `http://bit.ly/elm-polyconf`
+### `jackfranklin/elm-for-js-developers-talk`
 
 ---
 
-## Scaling your application
+
+## Components...ish?
 
 ---
 
-![fit](mvu1.jpeg)
+![left fit](twitterquote1.png)
+![right fit](twitterquote2.png)
 
 ---
 
@@ -967,10 +961,6 @@ Easily run a project in the browser with no tooling required.
 
 ---
 
-![fit autoplay loop](elm-reactor.mov)
-
----
-
 ## `elm package`
 
 ---
@@ -980,19 +970,6 @@ Easily run a project in the browser with no tooling required.
 ---
 
 Semantic versioning ensured.
-
-```
-~/git/elm-statey > elm package diff
-Comparing jackfranklin/elm-statey 2.0.0 to local changes...
-This is a MAJOR change.
-
------- Changes to module Statey - MAJOR ------
-
-    Changed:
-      - makeState : String -> Statey.State
-      + makeState : Statey.State
-
-```
 
 ---
 
@@ -1028,7 +1005,7 @@ This is a MAJOR change.
 
 ---
 
-# But what if this talk has put me off Elm?
+## But what if this talk has put me off Elm?
 
 ---
 
@@ -1072,9 +1049,10 @@ This is a MAJOR change.
 
 ---
 
-![fit](game-is-on.jpg)
+> It Depends
 
 ---
+
 
 - guide.elm-lang.org
 
@@ -1082,18 +1060,12 @@ This is a MAJOR change.
 
 - elm-lang.org/community
 
-- **bit.ly/elm-polyconf**
+- github.com/jackfranklin/elm-for-js-developers-talk
 
 - speakerdeck.com/jackfranklin
 
 ---
 
-# @Jack_Franklin
+## @Jack_Franklin
 
-## javascriptplayground.com
-
----
-
-![fit](poland.png)
-
-
+### javascriptplayground.com
