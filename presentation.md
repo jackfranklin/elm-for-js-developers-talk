@@ -1,11 +1,8 @@
-slidenumbers: true
-
-
-![fit](elm_logo.png)
+# 🇪🇸
 
 ---
 
-# 🇪🇸
+![fit](santelm.jpg)
 
 ---
 
@@ -14,6 +11,10 @@ slidenumbers: true
 ---
 
 ![fit](songkick.png)
+
+---
+
+![fit](http://blogs-images.forbes.com/jennchoi/files/2016/02/Love2Learn-Elmo-Seated-1200x1060.jpg)
 
 ---
 
@@ -58,7 +59,7 @@ slidenumbers: true
 
 ---
 
-Build web app is made up of _components_, not _controllers_.
+Build web apps that are made up of _components_, not _controllers_.
 
 `#componentsnotcontrollers`
 
@@ -410,12 +411,27 @@ addTwo =
 
 ```elm
 add : Int -> Int -> Int
+add x y =
+  x + y
+
 isEven : Int -> Bool
+isEven x =
+  n % 2 == 0
 ```
 
 ---
 
 ## Union Types
+
+```elm
+type Filter
+  = ShowAll
+  | ShowCompleted
+  | ShowActive
+
+```
+
+---
 
 ```elm
 type Filter
@@ -479,8 +495,11 @@ incrementAge(person);
 
 // has this mutated?
 // does it return a new person?
-// #javascript
 ```
+
+---
+
+![fit](http://3.bp.blogspot.com/-PTty3CfTGnA/TpZOEjTQ_WI/AAAAAAAAAeo/KeKt_D5X2xo/s1600/js.jpg)
 
 ---
 
@@ -499,23 +518,29 @@ in
 
 ---
 
-## Modules
+## Pure Functions
 
-:+1: Everything is scoped
+Elm functions are always pure.
 
-:+1: Modules explicitly declare what they expose
+```js
+let sum = (a, b) => a + b; //PURE
+sum(2, 2) // => ALWAYS 4
 
-:+1: Modules explicitly declare what they import
+let otherSum = (a, b) => window.foo + a + b; //IMPURE
+otherSum(2, 2) // => who knows, dependent on window.foo
+```
 
 ---
 
 ## Dealing with nothing
 
-No more null.
+---
+
+> I call it my billion-dollar mistake.
 
 ---
 
-> I call it my billion-dollar mistake. It was the invention of the null reference in 1965.
+> It was the invention of the null reference in 1965.
 
 ---
 
@@ -529,7 +554,11 @@ No more null.
 
 ---
 
-# You might say it's a...hoare-able mistake!
+# You might say it's a...
+
+---
+
+#...hoare-able mistake!
 
 ---
 
@@ -538,6 +567,14 @@ No more null.
 ---
 
 ## No null: how do you represent a value being present _or_ empty?
+
+---
+
+```js
+render() {
+  return <p>{ this.props.apiData.username }</p>;
+}
+```
 
 ---
 
@@ -563,20 +600,20 @@ As a value, I am:
 - __Just__ the integer 5
 - or, I am __Nothing__
 
----
-
-```elm
-let list = [1, 2, 3] in
-```
+I have the type `Maybe Int`
 
 ---
 
-Get the first thing from the list, and double it
+Get the first thing from the list, and double it[^2]
 
 ```elm
 let list = [1, 2, 3] in
 	(List.head list) * 2
 ```
+
+But what if `list = []` ?
+
+[^2]: this code is not valid Elm, becuase `List.head` returns `Maybe`
 
 ---
 
@@ -653,6 +690,10 @@ This does take time to get used to
 ---
 
 ![fit](evanquote.png)
+
+---
+
+![fit](elmcompiler.png)
 
 ---
 
@@ -753,6 +794,8 @@ main =
 
 Hand off to Elm, it will hand back later.
 
+Keeps functions pure, and async easier to reason about.
+
 ---
 
 ## Commands
@@ -762,6 +805,10 @@ Hand off to Elm, it will hand back later.
 Whenever you need to perform some background work, you have to give Elm a command.
 
 Elm will go off, perform the command, and call your `update` function once it's done.
+
+---
+
+## The Elm Architecture, Part 2
 
 ---
 
@@ -897,6 +944,18 @@ main =
 
 ---
 
+![fit](opera.png)
+
+---
+
+![fit](operabruce.png)
+
+---
+
+![fit autoplay loop](github-person-works.mov)
+
+---
+
 ![fit](github1.jpeg)
 
 ---
@@ -917,11 +976,17 @@ main =
 
 ---
 
-![fit](github-diagram.jpeg)
+![fit](github6.jpeg)
 
 ---
 
-> That feels like a lot of code / effort!
+## Deep breath!
+
+(Come find me if you want to look at the code in more detail!)
+
+---
+
+> That feels like a lot of code to do something so simple
 
 -- All of you.
 
