@@ -1,4 +1,14 @@
+---
+
 # 🇪🇸
+
+---
+
+![fit](https://vikingsfootballblog.files.wordpress.com/2012/08/funny-sports-pictures-quadruple-facepalm-e1300317290948.jpg)
+
+---
+
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Estelada_blava.svg/2000px-Estelada_blava.svg.png)
 
 ---
 
@@ -6,15 +16,18 @@
 
 ---
 
+![left](santelm.jpg)
+
+# It's a sign!
+
+---
+
+
 ## @Jack_Franklin
 
 ---
 
 ![fit](songkick.png)
-
----
-
-![fit](http://blogs-images.forbes.com/jennchoi/files/2016/02/Love2Learn-Elmo-Seated-1200x1060.jpg)
 
 ---
 
@@ -26,20 +39,15 @@
 
 ---
 
-## Building JavaScript Applications
-
----
-
 ## "Let's replicate rails"
 
 ---
-
 
 ## MVC / MVVC / MCVCVMMCVCCC
 
 ---
 
-## Two way data binding
+## Two way data binding and dirty checking
 
 ---
 
@@ -51,27 +59,15 @@
 
 ---
 
-## Explicit, component based approach
-
----
-
 ![fit](http://red-badger.com/blog/wp-content/uploads/2015/04/react-logo-1000-transparent.png)
 
 ---
 
-Build web apps that are made up of _components_, not _controllers_.
-
-`#componentsnotcontrollers`
+![fit](lee.png)
 
 ---
 
-![](twitter.png)
-
----
-
-## Ch-ch-ch-changeess
-
-Dealing with data.
+## Changes in data
 
 ---
 
@@ -81,11 +77,9 @@ Dealing with data.
 
 ## Single source of truth
 
-(Not _necessarily_ in one place)
-
 ---
 
-## http://todo.com/filter/completed
+## `http://todo.com/filter/completed`
 
 ```js
 {
@@ -157,7 +151,7 @@ Duplicate knowledge = out of sync quickly!
 
 ## Efficient rendering is not a developer concern[^1]
 
-[^1]: within reason, don't hate me
+[^1]: within reason, not always, be reasonable, thanks!
 
 ---
 
@@ -186,10 +180,6 @@ angular.controller('MyCtrl', function($scope) {
 
 ---
 
-## Explicitly define all actions that can modify state
-
----
-
 ```js
 function addTodo() {
   return {
@@ -203,7 +193,7 @@ These can be logged, stored, tracked, serialized and so on.
 
 ---
 
-## Have `update` functions that can handle actions
+## Have `update` functions that can handle actions and update the state
 
 ```
 update(action, state) => newState
@@ -216,12 +206,17 @@ const action = { type: 'USER_LOG_OUT'; };
 const currentState = { user: { name: 'Jack' } };
 
 const newState = update(action, currentState);
+
 newState => { user: undefined };
 ```
 
 ---
 
 ## `update` encapsulates most business logic
+
+---
+
+## Your logic and your UI are separated
 
 ---
 
@@ -247,11 +242,6 @@ newState => { user: undefined };
 
 ---
 
-
-## Explictness
-
----
-
 ## Explictly deal with all user interactions and state changes
 
 ```js
@@ -273,29 +263,6 @@ function update(action, state) {
 type Msg =
   NewUser String
   | LogOut
-```
-
----
-
-## Impossible to mess up
-
-```elm
-update msg model =
-  case msg of
-    NewUser name ->
-      { model | user = name }
-```
-
-```elm
-This `case` does not have branches for all possibilities.
-
-22|>    case msg of
-
-You need to account for the following values:
-
-    LogOut
-
-Add a branch to cover this pattern!
 ```
 
 ---
@@ -332,11 +299,7 @@ Add a branch to cover this pattern!
 
 ---
 
-## Expressive, clear code
-
----
-
-## Functional Programming
+## Expressive, clear code
 
 ```elm
 (add 1 2)
@@ -386,8 +349,6 @@ makePerson "jack"
 
 
 ---
-
-## Clean syntax
 
 ```elm
 incrementAge person =
@@ -544,10 +505,6 @@ otherSum(2, 2) // => who knows, dependent on window.foo
 
 ---
 
-> But I couldn't resist the temptation to put in a null reference.
-
----
-
 > This has led to innumerable errors, vulnerabilities, and system crashes
 
 -- Tony Hoare
@@ -667,20 +624,6 @@ an async thing that Elm should run for you (HTTP requests)
 
 ## Learning curve!
 
-This does take time to get used to
-
-* Syntax
-* Types
-* Immutablility
-* Compiling!
-* `Maybe` and explicit error handling
-
----
-
-> When you apply a pattern everywhere it ends up becoming a guarantee: that 100% of your code will follow that pattern. Once you have that guarantee you can build powerful developer tools or cross module features.
-
--- [Everywhereness as a Foundation](http://staltz.com/everywhereness-as-a-foundation.html), André Staltz
-
 ---
 
 > The Elm compiler make sure that 100% of your code is thoroughly checked against corner cases and error cases. This everywhereness becomes a guarantee. And it is only because of this guarantee that Elm programs have virtually no runtime errors.
@@ -697,6 +640,10 @@ This does take time to get used to
 
 ---
 
+## Building actual apps in Elm
+
+---
+
 ## The Elm Architecture
 
 ---
@@ -708,14 +655,18 @@ model : Model
 view : Model -> Html Msg
 update : Msg -> Model -> Model
 ```
+---
+
+## What changed?
 
 ---
+
 
 ![fit](mvu1.jpeg)
 
 ---
 
-## Counter
+## Building a counter app
 
 ---
 
@@ -855,20 +806,19 @@ type Msg
 
 ---
 
-Thirdly, define your `update` (and note the new type)
+Thirdly, define your `update`:
 
 ```elm
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
   case msg of
-    FetchError error ->
-      -- deal with error here in reality
-
     NewGithubData person ->
       ( { model | githubPerson = Just person }, Cmd.none )
 
     FetchGithubData ->
       ( model, fetchGithubData model.username )
+
+    ...
 ```
 
 ---
@@ -878,7 +828,11 @@ NewGithubData person ->
   ( { model | githubPerson = Just person }, Cmd.none )
 
 -- Cmd.none === do nothing
+```
 
+---
+
+```elm
 FetchGithubData ->
   ( model, fetchGithubData model.username )
 
@@ -982,8 +936,6 @@ main =
 
 ## Deep breath!
 
-(Come find me if you want to look at the code in more detail!)
-
 ---
 
 > That feels like a lot of code to do something so simple
@@ -1022,8 +974,6 @@ Which is often where JavaScript starts to struggle.
 
 ## `elm reactor`
 
-Easily run a project in the browser with no tooling required.
-
 ---
 
 ## `elm package`
@@ -1031,14 +981,6 @@ Easily run a project in the browser with no tooling required.
 ---
 
 ![fit autoplay loop](elm-package.mov)
-
----
-
-Semantic versioning ensured.
-
----
-
-## `elm format`
 
 ---
 
@@ -1051,10 +993,6 @@ Semantic versioning ensured.
 ---
 
 > You're fed up of `undefined function` errors that take up loads of time
-
----
-
-> You're fed up of packages on npm breaking semantic versioning
 
 ---
 
@@ -1115,6 +1053,10 @@ Semantic versioning ensured.
 ---
 
 > It Depends
+
+---
+
+> But it's great fun!
 
 ---
 
