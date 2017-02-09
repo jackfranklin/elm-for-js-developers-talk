@@ -1,37 +1,14 @@
 ---
 
-# 🇪🇸
+![fit](elm_logo.png)
 
 ---
-
-![fit](https://vikingsfootballblog.files.wordpress.com/2012/08/funny-sports-pictures-quadruple-facepalm-e1300317290948.jpg)
-
----
-
-![](https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Estelada_blava.svg/2000px-Estelada_blava.svg.png)
-
----
-
-![fit](santelm.jpg)
-
----
-
-![left](santelm.jpg)
-
-# It's a sign!
-
----
-
 
 ## @Jack_Franklin
 
 ---
 
 ![fit](songkick.png)
-
----
-
-![fit](elm_logo.png)
 
 ---
 
@@ -60,10 +37,6 @@
 ---
 
 ![fit](http://red-badger.com/blog/wp-content/uploads/2015/04/react-logo-1000-transparent.png)
-
----
-
-![fit](lee.png)
 
 ---
 
@@ -511,18 +484,6 @@ otherSum(2, 2) // => who knows, dependent on window.foo
 
 ---
 
-# You might say it's a...
-
----
-
-#...hoare-able mistake!
-
----
-
-# (You may leave)
-
----
-
 ## No null: how do you represent a value being present _or_ empty?
 
 ---
@@ -799,9 +760,8 @@ Secondly, define your `Msg`s
 
 ```elm
 type Msg
-  = NewGithubData GithubPerson
+  = NewGithubData (Result Http.Error GithubPerson)
   | FetchGithubData
-  | FetchError Http.Error
 ```
 
 ---
@@ -811,20 +771,21 @@ Thirdly, define your `update`:
 ```elm
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-  case msg of
-    NewGithubData person ->
-      ( { model | githubPerson = Just person }, Cmd.none )
+    case msg of 
+        NewGithubData (Ok person) ->
+            ( { model | githubPerson = Just person }, Cmd.none )
 
-    FetchGithubData ->
-      ( model, fetchGithubData model.username )
+        NewGithubData (Err _) ->
+            ( model, Cmd.none )
 
-    ...
+        FetchGithubData ->
+            ( model, fetchGithubData model.username )
 ```
 
 ---
 
 ```elm
-NewGithubData person ->
+NewGithubData (Ok person) ->
   ( { model | githubPerson = Just person }, Cmd.none )
 
 -- Cmd.none === do nothing
@@ -884,25 +845,13 @@ Finally, hook it all together!
 
 ```elm
 main = 
-  Html.App.program
+  Html.program
     { init = init
     , view = view
     , update = update
     , subscriptions = \_ -> Sub.none
     }
 ```
-
----
-
-![fit autoplay loop](github-person-works.mov)
-
----
-
-![fit](opera.png)
-
----
-
-![fit](operabruce.png)
 
 ---
 

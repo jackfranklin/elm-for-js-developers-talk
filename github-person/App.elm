@@ -2,10 +2,8 @@ module App exposing (..)
 
 import Html exposing (..)
 import Html.Events exposing (onClick)
-import Html.App
 import Http
-import Json.Decode as Json exposing ((:=))
-import Task
+import Json.Decode as Json exposing (field)
 
 
 type alias GithubPerson =
@@ -21,26 +19,21 @@ type alias Model =
 
 
 type Msg
-    = NewGithubData GithubPerson
+    = NewGithubData (Result Http.Error GithubPerson)
     | FetchGithubData
-    | FetchError Http.Error
-
-
-
--- TODO: what happens when the JSON decoding fails? Do I need to deal with this?
 
 
 githubDecoder : Json.Decoder GithubPerson
 githubDecoder =
-    Json.object2 GithubPerson
-        ("name" := Json.string)
-        ("company" := Json.string)
+    Json.map2 GithubPerson
+        (field "name" Json.string)
+        (field "company" Json.string)
 
 
 fetchGithubData : String -> Cmd Msg
 fetchGithubData username =
-    Http.get githubDecoder ("https://api.github.com/users/" ++ username)
-        |> Task.perform FetchError NewGithubData
+    Http.get ("https://api.github.com/users/" ++ username) githubDecoder
+        |> Http.send NewGithubData
 
 
 initialModel : Model
@@ -58,11 +51,11 @@ init =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        FetchError _ ->
-            ( model, Cmd.none )
-
-        NewGithubData person ->
+        NewGithubData (Ok person) ->
             ( { model | githubPerson = Just person }, Cmd.none )
+
+        NewGithubData (Err _) ->
+            ( model, Cmd.none )
 
         FetchGithubData ->
             ( model, fetchGithubData model.username )
@@ -78,9 +71,9 @@ view { githubPerson, username } =
             div [] [ text (person.name ++ ", " ++ person.company) ]
 
 
-main : Program Never
+main : Program Never Model Msg
 main =
-    Html.App.program
+    Html.program
         { init = init
         , update = update
         , view = view
